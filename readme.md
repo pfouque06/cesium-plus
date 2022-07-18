@@ -64,3 +64,8 @@ The pod should also be available in the Cesium application:
   cesium-plus-pod@cabe62ea6f21:~$ cd cesium-plus-pod-X.Y/bin  
   cesium-plus-pod@cabe62ea6f21:~$ ./elasticsearch -d  
 ```
+
+## TODO
+- to solve : the pod is operational locally and via public access but seems unknown by cesium+ net
+- to solve : data volume cannot be bind to a local host volume
+- to solve : VOLUME /cesium-plus-pod/cesium-plus-pod cannot be bind to composer volume (local or docker)
