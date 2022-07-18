@@ -1,0 +1,22 @@
+version: '3.3'
+
+services:
+
+  cesium-plus-pod:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # image: result/latest
+    image: duniter/cplus
+    # restart: always # 'unless_stopped' for non production nodes, 'always' for production nodes
+    volumes:
+      # - cesium-plus-pod:/cesium-plus-pod/cesium-plus-pod
+      # - ./data:/cesium-plus-pod/cesium-plus-pod/data
+      - data:/cesium-plus-pod/cesium-plus-pod/data
+    ports:
+      - "9200:9200"
+      - "9400:9400"
+
+volumes:
+  # cesium-plus-pod:
+  data:

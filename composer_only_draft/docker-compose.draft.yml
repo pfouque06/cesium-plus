@@ -1,0 +1,25 @@
+version: '3.3'
+
+# x-settings: &settings
+#   VERSION: ${VERSION:-1.1.3}
+#   LIBSODIUM_VERSION: ${LIBSODIUM_VERSION:-1.0.14}
+
+services:
+
+  cesium-plus-pod:
+    # image: duniter/duniter
+    # image: openjdk:18-jdk
+    image: airdock/oraclejdk:1.8
+    # environment: *settings
+    environment:
+      VERSION: 1.1.3
+      LIBSODIUM_VERSION: 1.0.14
+    # restart: always
+    volumes:
+      - ./install.sh:/tmp/install.sh
+    working_dir: /tmp
+    command: sh -c 'watch ls'
+    # command: sh -c 'yarn common:build && yarn am:start'
+    ports:
+      - "9200:9200"
+      - "9400:9400"

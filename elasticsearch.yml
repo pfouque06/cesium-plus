@@ -1,0 +1,314 @@
+# ======================== Elasticsearch Configuration =========================
+#
+# NOTE: Elasticsearch comes with reasonable defaults for most settings.
+#       Before you set out to tweak and tune the configuration, make sure you
+#       understand what are you trying to accomplish and the consequences.
+#
+# The primary way of configuring a node is via this file. This template lists
+# the most important settings you may want to configure for a production cluster.
+#
+# Please see the documentation for further information on configuration options:
+# <http://www.elastic.co/guide/en/elasticsearch/reference/current/setup-configuration.html>
+#
+# ---------------------------------- Cluster -----------------------------------
+#
+# Use a descriptive name for your cluster:
+#
+cluster.name: cesium-plus-pod-g1
+cluster.remote.host: cplus.g1.pfouque.xyz
+cluster.remote.port: 9200
+cluster.remote.useSsl: true
+# ------------------------------------ Node ------------------------------------
+#
+# Use a descriptive name for the node:
+#
+node.name: cesium-plus-pod-g1-node-1
+#
+# Add custom attributes to the node:
+#
+# node.rack: r1
+#
+# ----------------------------------- Paths ------------------------------------
+#
+# Path to directory where to store the data (separate multiple locations by comma):
+#
+# path.data: /path/to/data
+#
+# Path to log files:
+#
+# path.logs: /path/to/logs
+#
+# ----------------------------------- Memory -----------------------------------
+#
+# Lock the memory on startup:
+#
+# bootstrap.mlockall: true
+#
+# Make sure that the `ES_HEAP_SIZE` environment variable is set to about half the memory
+# available on the system and that the owner of the process is allowed to use this limit.
+#
+# Elasticsearch performs poorly when the system is swapping the memory.
+#
+# ---------------------------------- Network -----------------------------------
+#
+# Set the bind address to a specific IP (IPv4 or IPv6):
+#
+network.host: 0.0.0.0
+#
+# Set a custom port for HTTP:
+#
+http.port: 9200
+
+http.cors.allow-origin: "/.*/"
+http.cors.enabled: true
+
+# Internal transport layer
+#
+# transport.tcp.port: 9210-9220
+#
+# For more information, see the documentation at:
+# <http://www.elastic.co/guide/en/elasticsearch/reference/current/modules-network.html>
+#
+# --------------------------------- Discovery ----------------------------------
+#
+# Pass an initial list of hosts to perform discovery when new node is started:
+# The default list of hosts is ["127.0.0.1", "[::1]"]
+#
+# discovery.zen.ping.unicast.hosts: ["host1", "host2"]
+# discovery.zen.ping.unicast.hosts: ["127.0.0.1", ""]
+#
+# Prevent the "split brain" by configuring the majority of nodes (total number of nodes / 2 + 1):
+#
+# discovery.zen.minimum_master_nodes: 3
+#
+# For more information, see the documentation at:
+# <http://www.elastic.co/guide/en/elasticsearch/reference/current/modules-discovery.html>
+#
+# ---------------------------------- Gateway -----------------------------------
+#
+# Block initial recovery after a full cluster restart until N nodes are started:
+#
+# gateway.recover_after_nodes: 3
+#
+# For more information, see the documentation at:
+# <http://www.elastic.co/guide/en/elasticsearch/reference/current/modules-gateway.html>
+#
+# ---------------------------------- Various -----------------------------------
+#
+# Disable starting multiple nodes on a single system:
+#
+# node.max_local_storage_nodes: 1
+#
+# Require explicit names when deleting indices:
+#
+# action.destructive_requires_name: true
+#
+# Security to isolate plugin classpath - /!\ WARNING: should be DISABLE for Cesium+ Pod
+#
+security.manager.enabled: false
+#
+# ---------------------------------- Cesium+ Pod ---------------------------------
+#
+# Enable Cesium+ pod plugins (default: true)
+#
+# duniter.enable: false
+#
+# Delete then create all indices at startup - /!\ WARNING: DO NOT set to true in production
+#
+# duniter.indices.reload: true
+#
+# Default string analyzer
+#
+duniter.string.analyzer: french
+#
+# Enabling blockchain synchronization (default: false)
+#
+duniter.blockchain.enable: true
+#duniter.blockchain.event.user.enable: true
+#duniter.blockchain.event.admin.enable: true
+#
+# Force blockchain full synchronization - /!\ WARNING: all user events will be reset to 'unread'
+#
+# duniter.blockchain.reload: true
+# duniter.blockchain.reload.from: 18900
+# duniter.blockchain.reload.to: 19000
+#
+# Duniter node address
+#
+duniter.host: g1.duniter.org
+duniter.port: 10901
+# duniter.useSsl: true
+#
+# Compute statistics on indices (each hour) ? (default: true)
+#
+# duniter.stats.enable: false
+#
+# Software name (used when calling GET request on /node/summary) (default: 'cesium-plus-pod')
+#
+# duniter.software.name: cesium-plus-pod
+#
+# ---------------------------------- Cesium+ Pod >  security module -------------------
+#
+# Keyring, use to sign emitted documents (user events, subscription, etc.).
+# If not set, random keys will be generated.
+#
+# duniter.keyring.salt:
+# duniter.keyring.password:
+#
+# Enable security - will restrict HTTP access to only Cesium+ known indices - /!\ WARNING: should be enable for production use
+#
+duniter.security.enable: true
+#
+# ---------------------------------- Cesium+ Pod > P2P module -------------------------
+#
+# Enable P2P synchronize between ES peers ? (default: true)
+#
+# duniter.p2p.enable: false
+#
+# Enable P2P synchronisation using websocket ? (default: true)
+#
+# duniter.p2p.ws.enable: false
+#
+# Time delay (in seconds) to request last documents to peer (e.g. if peer's clock is late). (default: 3600s = 1h)
+#
+# duniter.p2p.peerTimeOffset: 3600
+#
+# Enable discovery on network peers, to automatically synchronize this peers (default: true)
+#
+# duniter.p2p.discovery.enable: false
+#
+# Pass a list of hosts to always synchronize (default: <empty>)
+#
+duniter.p2p.includes.endpoints: [
+  "ES_CORE_API g1.data.duniter.fr 443",
+  "ES_USER_API g1.data.duniter.fr 443",
+  "ES_SUBSCRIPTION_API g1.data.duniter.fr 443"
+]
+#
+# Pass a list of pubkeys to always synchronize (default: <empty>)
+#
+# duniter.p2p.includes.pubkeys: [
+#  "38MEAZN68Pz1DTvT3tqgxx4yQP6snJCQhPqEFxbDk4aE"
+# ]
+#
+# Enable a full synchro. This will compare each documents from other peers.
+#
+# duniter.p2p.fullResyncAtStartup: true
+#
+# Enable publishing of pod endpoints to the network (see the peer document in Duniter protocol). (Default: '${duniter.p2p.enable}')
+#
+# duniter.p2p.peering.enable: false
+#
+# Define targeted API (for peers slection) where to send the peer document (if peering is enable). (Default: ["BASIC_MERKLED_API", "BMAS"])
+# This API should accept a POST request to '/network/peering' (will send a see the Duniter protocol)
+#
+# duniter.p2p.peering.targetedApis: [
+#  "BASIC_MERKLED_API", "BMAS"
+# ]
+#
+# Define cluster API to publish (if peering is enable). By default, all compatible API
+#
+# duniter.p2p.peering.publishedApis: [
+#  "ES_CORE_API", "ES_USER_API", "ES_SUBSCRIPTION_API"
+# ]
+#
+# Interval for publishing peer document to the network, in seconds. (Default: 7200 =2h)
+#
+# duniter.p2p.peering.interval: 7200
+#
+# ---------------------------------- Cesium+ Pod > document moderation ---------------
+#
+# Filter too old document, if time older that 'maxPastDelta' (in seconds). (default: 7200 =2h)
+#
+# duniter.document.time.maxPastDelta: 7200
+#
+# Filter document in the futur, if time greater that 'maxFutureDelta' (in seconds). (default: 600 =10min)
+#
+# duniter.document.time.maxFutureDelta: 600
+#
+# Allow admin (define in duniter.keyring) to delete documents ? (default: true)
+#
+# duniter.document.allowAdminDeletion: true
+#
+# ---------------------------------- Cesium+ Pod > Mail module -----------------------
+#
+# Enable mail module ?
+#
+duniter.mail.enable: false
+#
+# Mail: SMTP server configuration (host and port)
+#
+# duniter.mail.smtp.host: localhost
+# duniter.mail.smtp.port: 25
+#
+# Mail: SMTP server SSL security
+#
+# duniter.mail.smtp.ssl: true
+# duniter.mail.smtp.starttls: true
+#
+# Mail: SMTP server authentication
+#
+# duniter.mail.smtp.username:
+# duniter.mail.smtp.password:
+#
+# Mail: 'from' address
+#
+# duniter.mail.from: no-reply@domain.com
+#
+# Mail: admin address
+#
+# duniter.mail.admin: user@domain.com
+#
+# Mail: subject prefix
+#
+# duniter.mail.subject.prefix: '[Cesium+]'
+
+# ---------------------------------- Cesium+ Pod > Websocket server ----------------------
+#
+# Websocket port (default: 9400-9410)
+#
+duniter.ws.port: 9400-9410
+#
+# ---------------------------------- Cesium+ Pod > Subscription module -------------------
+#
+# Enable subscription module (Need to enable mail features)
+#
+duniter.subscription.enable: false
+#
+# Options to debug this features (DEV only)
+#
+# duniter.subscription.email.atStartup: false
+# duniter.subscription.email.debug: false
+#
+# Email subscription: Day of the week to trigger weekly (default: 2 = monday)
+#
+# duniter.subscription.email.dayOfWeek: 2
+#
+# Email subscription: Hour in day to trigger daily email subscription (default: 3 AM)
+#
+# duniter.subscription.email.hourOfDay: 3
+#
+# Email subscription: URL to a Cesium site, for links in the email content (default: https://g1.duniter.fr)
+#
+# duniter.subscription.email.link.url: 'https://domain.com/cesium'
+#
+# ---------------------------------- Cesium+ Pod > Share module -------------------
+#
+#
+# Share title: `og:site_name` (default: 'Cesium')
+#
+# duniter.share.site.name: 'Cesium - Ğ1'
+#
+# URL to a page (default: https://g1.duniter.fr/#/app/page/view/{id}/{title} )
+# Note: available variables are {id} and {title}
+#
+# duniter.share.page.link.url: 'https://domain.com/cesium/#/app/page/view/{id}/{title}'
+#
+# URL to a user profile (default: https://g1.duniter.fr/#/app/wot/{pubkey}/{title} )
+# Note: available variables are {pubkey} and {title}
+#
+# duniter.share.user.link.url: 'https://domain.com/cesium/#/app/wot/{pubkey}/{title}'
+#
+# Default image to share (min size of 200x200px) for `og:image` (default: https://g1.duniter.fr/img/logo_200px.png)
+#
+# duniter.share.image.default.url: 'https://domain.com/cesium/img/logo_200px.png'
